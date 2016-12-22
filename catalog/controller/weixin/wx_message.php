@@ -61,16 +61,16 @@ class ControllerWeixinWxmessage extends Controller {
 		$sj_lang['pt_unit'] = $this->language->get('pt_unit');
 
 		// 1.给配送人员发送消息(模板消息)
-		$staff = $this->getDeliverierStaff($order_info['delivery_area_id']);
-		$ps_param = $this->getParamToDeliverier($ps_lang, $order_info);
-		if (!empty($staff['openid']) && $this->weixin->sendTempleteMessageToDeliverer($staff['openid'], $ps_param)) {
-			// 添加到delivery_history表中
-			$this->load->model('delivery/history');
-			$this->model_delivery_history->addDeliveryHistory($order_info['id'], $staff['delivery_staff_id']);
-		} else {
-			// 通知管理员
-			$this->weixin->sendTextMessage($admin['openid'], $ps_err_msg);
-		}
+ 		$staff = $this->getDeliverierStaff($order_info['delivery_area_id']);
+// 		$ps_param = $this->getParamToDeliverier($ps_lang, $order_info);
+// 		if (!empty($staff['openid']) && $this->weixin->sendTempleteMessageToDeliverer($staff['openid'], $ps_param)) {
+// 			// 添加到delivery_history表中
+// 			$this->load->model('delivery/history');
+// 			$this->model_delivery_history->addDeliveryHistory($order_info['id'], $staff['delivery_staff_id']);
+// 		} else {
+// 			// 通知管理员
+// 			$this->weixin->sendTextMessage($admin['openid'], $ps_err_msg);
+// 		}
 
 		// 2.给商家发送消息
 		foreach ($order_info['products'] as $business){
@@ -185,7 +185,9 @@ class ControllerWeixinWxmessage extends Controller {
 					foreach($product['option'] as $option){
 						$option_info[] = $option['name'].':'.$option['value'];
 					}
-					$content .= '(' . explode(',', $option_info) .')\n';
+					if(!empty($option_info)){
+						$content .= '(' . implode(',', $option_info) .')\n';
+					}
 				}
 			}
 			$content .= '\n';
@@ -226,7 +228,10 @@ class ControllerWeixinWxmessage extends Controller {
 				foreach($product['option'] as $option){
 					$option_info[] = $option['name'].':'.$option['value'];
 				}
-				$content .= '(' . explode(',', $option_info) .')\n';
+				
+				if(!empty($option_info)){
+					$content .= '(' . implode(',', $option_info) .')\n';
+				}
 			}
 			$counter++;
 		}
