@@ -55,7 +55,7 @@
     <!-- 手机屏幕显示服务区 -->
     <?php if(isset($service_zone)) { ?>
     <div id="nav-service-zone-xs" class="nav nav-xs visible-xs-block">
-      <a href="<?php echo $localisation_change_url; ?>">[<?php echo $service_zone['name']; ?>]</a>
+      <a href="<?php echo $localisation_change_url; ?>">[<span style="color:#7144ae"><?php echo $service_zone['name']; ?></span>]</a>
     </div>
     <?php } ?>
     
