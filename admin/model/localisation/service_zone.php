@@ -48,7 +48,7 @@ class ModelLocalisationServiceZone extends Model {
 	}
 
 	public function getServiceZones($data = array()) {
-		$sql = "SELECT sz.service_zone_id, sz.service_zone_code, sz.service_zone_name, c.city_name AS city FROM " . DB_PREFIX . "service_zone AS sz LEFT JOIN " . DB_PREFIX . "city AS c ON sz.city_id = c.city_id";
+		$sql = "SELECT sz.service_zone_id, sz.service_zone_code, sz.service_zone_name,sz.status, c.city_name AS city FROM " . DB_PREFIX . "service_zone AS sz LEFT JOIN " . DB_PREFIX . "city AS c ON sz.city_id = c.city_id";
 	
 		$sort_data = array(
 				'c.city_name',

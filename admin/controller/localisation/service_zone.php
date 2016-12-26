@@ -182,6 +182,7 @@ class ControllerLocalisationServiceZone extends Controller {
 				'city'    => $result['city'],
 				'name'    => $result['service_zone_name'],
 				'code'    => $result['service_zone_code'],
+				'status'    => $result['status'],
 				'edit'    => $this->url->link('localisation/service_zone/edit', 'token=' . $this->session->data['token'] . '&service_zone_id=' . $result['service_zone_id'] . $url, 'SSL')
 			);
 		}
@@ -470,6 +471,18 @@ class ControllerLocalisationServiceZone extends Controller {
 		
 		if (utf8_strlen($this->request->post['description']) == 0) {
 			$this->error['description'] = $this->language->get('error_description');
+		}
+		
+		if (1 != $this->request->post['status']) {
+			$this->load->model('localisation/city');
+			$data['cities'] = $this->model_localisation_city->getCities();
+			
+			foreach($data['cities'] as $city){
+				if($city['service_zone_id'] == $this->request->get['service_zone_id']){
+					$this->error['warning'] = '本服务区是默认服务区，不能关闭！';
+					break;
+				}
+			}
 		}
 
 		return !$this->error;

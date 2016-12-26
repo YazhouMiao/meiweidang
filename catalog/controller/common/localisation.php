@@ -84,17 +84,36 @@ class ControllerCommonLocalisation extends Controller {
 			
 			// service_zone
 			$service_zone = $this->model_localisation_service_zone->getServiceZone($service_zone_id);
-			$data['service_zone'] = array(
-				'id'   => $service_zone['service_zone_id'],
-				'name' => $service_zone['service_zone_name'],
-			);
-			
-			// city
-			$city = $this->model_localisation_city->getCity($service_zone['city_id']);
-			$data['city'] = array(
-				'id'   => $city['city_id'],
-				'name' => $city['city_name']
-			);
+			if(!empty($service_zone)){
+				$data['service_zone'] = array(
+						'id'   => $service_zone['service_zone_id'],
+						'name' => $service_zone['service_zone_name'],
+				);
+					
+				// city
+				$city = $this->model_localisation_city->getCity($service_zone['city_id']);
+				$data['city'] = array(
+						'id'   => $city['city_id'],
+						'name' => $city['city_name']
+				);
+			} else {
+				// 默认城市/服务区
+				$city_id = $this->config->get('config_default_city_id');
+				$city_query = $this->model_localisation_city->getCity($city_id);
+				
+				$data['city'] = array(
+						'id' => $city_query['city_id'],
+						'name' => $city_query['city_name']
+				);
+					
+				$service_zone_query = $this->model_localisation_service_zone->getServiceZone($city_query['service_zone_id']);
+				
+				// default service_zone
+				$data['service_zone'] = array(
+						'id'   => $service_zone_query['service_zone_id'],
+						'name' => $service_zone_query['service_zone_name']
+				);
+			}
 		}
 		
 		// cities

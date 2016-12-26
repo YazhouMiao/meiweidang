@@ -50,6 +50,7 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_code; ?>"><?php echo $column_code; ?></a>
                     <?php } ?></td>
+                  <td class="text-center">状态</td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
@@ -65,6 +66,7 @@
                   <td class="text-left"><?php echo $service_zone['city']; ?></td>
                   <td class="text-left"><?php echo $service_zone['name']; ?></td>
                   <td class="text-left"><?php echo $service_zone['code']; ?></td>
+                  <td class="text-center"><?php echo $service_zone['status'] ? '启用' : '停用' ?></td>
                   <td class="text-right"><a href="<?php echo $service_zone['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php } ?>

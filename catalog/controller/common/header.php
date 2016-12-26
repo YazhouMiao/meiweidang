@@ -23,10 +23,13 @@ class ControllerCommonHeader extends Controller {
 		$this->load->model('localisation/service_zone');
     	if(isset($this->session->data['service_zone_id'])){
     		$service_zone = $this->model_localisation_service_zone->getServiceZone($this->session->data['service_zone_id']);
-    		$data['service_zone'] = array(
-    			'id'   => $service_zone['service_zone_id'],
-    			'name' => $service_zone['service_zone_name']
-    		);
+    		
+    		if(!empty($service_zone)){
+    			$data['service_zone'] = array(
+	    			'id'   => $service_zone['service_zone_id'],
+	    			'name' => $service_zone['service_zone_name']
+    			);
+    		}
     	}
     	
     	$data['localisation_change_url'] = $this->url->link('common/localisation/locate', '', 'SSL');
